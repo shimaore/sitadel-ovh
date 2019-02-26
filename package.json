@@ -1,0 +1,29 @@
+{
+  "name": "sitadel-ovh",
+  "version": "1.0.0",
+  "description": "OVH API (higher-level)",
+  "main": "ovh.js",
+  "scripts": {
+    "build": "npm install --only=dev && coffee -c *.coffee.md",
+    "prepublishOnly": "npm run build",
+    "pretest": "npm run build && coffee -c test/*.coffee.md",
+    "test": "nyc mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "gitlab.com/shimaore/sitadel-ovh"
+  },
+  "author": "stephane@shimaore.net",
+  "license": "Unlicense",
+  "devDependencies": {
+    "coffeescript": "^2.3.2",
+    "mocha": "^6.0.2",
+    "nyc": "^13.3.0"
+  },
+  "dependencies": {
+    "superagent": "^4.1.0",
+    "superagent-ovh": "^1.0.1",
+    "superagent-prefix": "0.0.2",
+    "tangible": "^3.0.0"
+  }
+}
