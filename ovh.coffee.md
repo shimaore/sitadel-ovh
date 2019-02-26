@@ -187,7 +187,7 @@ Remove service
       remove_service: (serviceName) ->
         debug 'remove_service', serviceName
 
-        N = @ovh.db.findAsyncIterable
+        N = @db.findAsyncIterable
           selector:
             type: OVH.SERVICE
             Service: serviceName
@@ -576,7 +576,6 @@ Retrieve all data linked to a billingAccount
           console.error "billingAccount has no features!", billingAccount
         else
           console.log "billingAccount has #{counter} features", billingAccount
-        console.log db.count
         return
 
       module.exports = OVH
