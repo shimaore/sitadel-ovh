@@ -7,7 +7,7 @@ Some OVH API returns the message inside the JSON response as a `message` field.
 
     class OVHAPIError extends Error
       constructor: ({message,response}) ->
-        super response.body?.message? ? message
+        super response?.body?.message? ? message
 
     catcher = (error) -> Promise.reject new OVHAPIError error
 
