@@ -576,6 +576,8 @@ Retrieve all data linked to a billingAccount
         console.log db.count
         return
 
+      module.exports = OVH
+
     {debug,heal} = (require 'tangible') 'careless-cent:ovh'
     ec = encodeURIComponent
     sleep = (timeout) -> new Promise (resolve) -> setTimeout resolve, timeout
