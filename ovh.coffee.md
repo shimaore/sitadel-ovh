@@ -3,6 +3,9 @@ OVH
 
     API = require './ovh-api'
 
+    seconds = 1000
+    scheduler_wait = 9*seconds
+
     class OVH
 
 Static properties and methods.
@@ -581,3 +584,4 @@ Retrieve all data linked to a billingAccount
     {debug,heal} = (require 'tangible') 'careless-cent:ovh'
     ec = encodeURIComponent
     sleep = (timeout) -> new Promise (resolve) -> setTimeout resolve, timeout
+    assert = require 'assert'
