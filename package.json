@@ -1,6 +1,6 @@
 {
   "name": "sitadel-ovh",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "OVH API (higher-level)",
   "main": "ovh.js",
   "scripts": {

@@ -5,6 +5,8 @@ OVH
 
     seconds = 1000
     scheduler_wait = 9*seconds
+    default_periods = 12
+    period_duration = 10*seconds
 
     class OVH
 
