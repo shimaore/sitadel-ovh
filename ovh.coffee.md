@@ -29,10 +29,6 @@ Constructor
         @__queue = new Set
         @__scheduler()
 
-Index pour `remove_service`
-
-        heal @db.createIndex
-          index: fields: [ 'type', 'Service' ]
         return
 
       schedule_check: (billingAccount) ->
@@ -173,23 +169,14 @@ Aussi: on ne sait commander que du fax non-géo ("ligne" pure), parce qu'il faut
 Remove service
 --------------
 
-      remove_service: (serviceName) ->
-        debug 'remove_service', serviceName
+      remove_service: (ovh_id) ->
+        debug 'remove_service', ovh_id
 
-        N = @db.findAsyncIterable
-          selector:
-            type: OVH.SERVICE
-            Service: serviceName
-          limit: 1
-
-        service = null
-        for await doc from N
-          service = doc
-
+        [billingAccount,type,service] = ovh_id.split ':'
         return unless service?
 
         await @api
-          .delete "/telephony/#{ec service.BillingAccount}/#{OVH.SERVICE}/#{service.Service}"
+          .delete "/telephony/#{ec billingAccount}/#{OVH.SERVICE}/#{service}"
           .send
             reason: 'other'
             details: "Provisioning requested removal"
