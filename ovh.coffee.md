@@ -464,10 +464,14 @@ Retrieve a `/telephony/` document using the API directly. Cache the result.
 
 ### force_get
 
-      force_get: (billingAccount,cl,sv) ->
-        data = await @__get billingAccount, cl, sv
+`force_get(billingAccount)` or `force_get(billingAccount,cl,sv)`
+
+      force_get: (path...) ->
+        data = await @__get path...
         return unless data?
         # FIXME: in case of deletion, still need to delete; not sure how to deal with that? Enumerate the database, do the query on the OVH side, remove if 404?
+
+        [billingAccount,cl,sv] = path
 
         switch cl
           when 'fax'
