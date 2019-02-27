@@ -16,6 +16,7 @@ Static properties and methods.
       @NUMBER: 'number'
       @TRUNK: 'trunk'
       @SERVICE: 'service'
+      @FAX: 'fax'
 
       @Type: (t) ->
         assert.strictEqual 'string', typeof t, "OVH.Type expected a string, got #{t}"
