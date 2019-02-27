@@ -66,15 +66,6 @@ Create billing account
 Create line
 -----------
 
-      line_plan_code: (country) ->
-        switch country
-          when 'ch'
-            'line-sip-ch-priceplan-ch-0h-vip' # 0.99€
-            # 'line-sip-ch-priceplan-ch-unlimitedmobile-vip' # 10.99
-          when 'fr'
-            'line-sip-fr-priceplan-fr-0h-vip' # 0.99€
-            # 'line-sip-fr-priceplan-fr-unlimitedmobile-vip' # 10.99
-
       create_line: (billingAccount,meta) ->
         debug 'create_line', billingAccount, meta
 
@@ -337,21 +328,6 @@ Update number of channels on a line
           {quantity}
         await order.pay_with_bankAccount()
         order
-
-Data retrieval
---------------
-
-Return the current contact. I'm assuming that's the one with the highest value.
-
-      contact: ->
-        contacts = await @api.get '/me/contact'
-        contacts.sort().pop()
-
-Return the back account. Normally there's only one. In any case return the highest value.
-
-      bankAccount: ->
-        bankAccounts = await @api.get '/me/paymentMean/bankAccount?state=valid'
-        bankAccounts.sort().pop()
 
 Actions
 -------
