@@ -1,7 +1,7 @@
 OVH
 ===
 
-    API = require './ovh-api'
+    API = require './api'
 
     seconds = 1000
     scheduler_wait = 9*seconds
