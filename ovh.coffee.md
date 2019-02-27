@@ -338,6 +338,11 @@ Actions
         await @api.put "/telephony/#{ec BillingAccount}/line/#{ec serviceName}/options", data
         return
 
+      change_destination: (ovh_number,number) ->
+        {BillingAccount,featureType,serviceName} = ovh_number
+        debug 'change_destination', BillingAccount, featureType, serviceName, number
+        await @api.put "/telephony/#{ec BillingAccount}/#{ec featureType}/#{ec serviceName}/changeDestination", number
+
 Order
 -----
 
