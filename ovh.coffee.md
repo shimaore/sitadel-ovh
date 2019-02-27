@@ -126,7 +126,7 @@ label: "paymentMeanType"
           waiveRetractationPeriod: true
 
         ###
-        contact = await @contact()
+        contact = await @contact meta
         order = @order await @api.post "/order/telephony/#{ec billingAccount}/line",
           displayUniversalDirectories: [false]
           extraSimultaneousLines: [0]
@@ -153,13 +153,9 @@ Create fax
         meta.zone ?= '' # ZNE, ignored for nogeographic
         meta.quantity ?= 1
 
-Pour l'instant on ne sait que commander du fax FR, see OVH ticket 9450148439.
-
-        unless meta.country is 'fr'
-          throw new Error "I do not know how to order a fax line for country #{meta.country}"
-
 Aussi: on ne sait commander que du fax non-géo ("ligne" pure), parce qu'il faut que le "contact" (je présume le shippingContactId) soit dans la bonne commune.
 
+        contact = await @contact meta
         order = @order await @api.post "/order/telephony/#{ec billingAccount}/line",
           displayUniversalDirectories: [false]
           extraSimultaneousLines: [0]
