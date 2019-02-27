@@ -66,7 +66,7 @@ Create line
       create_line: (billingAccount,meta) ->
         debug 'create_line', billingAccount, meta
 
-        switch country
+        switch meta.country
           when 'fr'
             meta.type ?= 'nogeographic' # or 'geographic'
             meta.zone ?= '' # ZNE, ignored for nogeographic
