@@ -501,7 +501,7 @@ Retrieve a `/telephony/` document using the API directly. Cache the result.
               data.Documents = r3.body
 
         await @db.update data
-        return
+        return await @db.get data._id
 
 ### force_check
 
