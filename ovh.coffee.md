@@ -554,7 +554,7 @@ Retrieve all data linked to a billingAccount
 
       module.exports = OVH
 
-    {debug,heal} = (require 'tangible') 'careless-cent:ovh'
+    {debug,heal} = (require 'tangible') 'sitadel-ovh:ovh'
     ec = encodeURIComponent
     sleep = (timeout) -> new Promise (resolve) -> setTimeout resolve, timeout
     assert = require 'assert'
