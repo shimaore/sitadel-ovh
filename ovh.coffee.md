@@ -50,6 +50,7 @@ Create billing account
 ----------------------
 
       create_billingAccount: (account,meta) ->
+        debug 'create_billingAccount', account, meta
 
         order = @order await @api.post "/order/telephony/new"
 
@@ -347,6 +348,7 @@ Order
 -----
 
       order: ({orderId}) ->
+        debug 'order', orderId
         status = =>
           await @api.get "/me/order/#{ec orderId}/status"
 
@@ -409,6 +411,7 @@ Task
 ----
 
       task: (billingAccount,serviceName,taskId) ->
+        debug 'task', billingAccount, serviceName, taskId
         status = =>
           (await @api.get "/telephony/#{ec billingAccount}/#{OVH.SERVICE}/#{ec serviceName}/task/#{ec taskId}")
             .status
@@ -435,6 +438,8 @@ Tools
 Retrieve a `/telephony/` document using our local cache first.
 
       get: (path...) ->
+        debug 'get', path
+
         id = path.join ':'
 
 Use our local cache if present
@@ -453,6 +458,8 @@ Query OVH directly otherwise
 Retrieve a `/telephony/` document using the API directly. Cache the result.
 
       __get: (path...) ->
+        debug '__get', path
+
         id = path.join ':'
 
         doc = res = await @api.get "/telephony/#{path.map(ec).join '/'}"
@@ -467,6 +474,8 @@ Retrieve a `/telephony/` document using the API directly. Cache the result.
 `force_get(billingAccount)` or `force_get(billingAccount,cl,sv)`
 
       force_get: (path...) ->
+        debug 'force_get', path
+
         data = await @__get path...
         return unless data?
         # FIXME: in case of deletion, still need to delete; not sure how to deal with that? Enumerate the database, do the query on the OVH side, remove if 404?
@@ -505,6 +514,7 @@ Retrieve a `/telephony/` document using the API directly. Cache the result.
 Retrieve all data linked to a billingAccount
 
       force_check: (billingAccount) ->
+        debug 'force_check', billingAccount
 
         counter = 0
 
