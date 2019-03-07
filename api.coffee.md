@@ -1,15 +1,23 @@
     superagent_ovh = require 'superagent-ovh'
     superagent = require 'superagent'
     superagent_prefix = require 'superagent-prefix'
+    {debug} = (require 'tangible') 'sitadel-ovh:api'
 
 Some OVH API returns the message inside the JSON response as a `message` field.
 (Particularly the Portability API.)
 
     class OVHAPIError extends Error
-      constructor: ({message,response}) ->
-        super response?.body?.message? ? message
+      constructor: ({message,response},path,content) ->
+        super [
+          path
+          JSON.stringify content
+          response?.body?.message? ? message
+        ].join ' → '
 
-    catcher = (error) -> Promise.reject new OVHAPIError error
+    catcher = (path,content) -> (error) ->
+      error = new OVHAPIError error, path, content
+      debug.error 'OVHAPIError', error
+      Promise.reject error
 
     class API
       constructor: (base,options) ->
@@ -24,7 +32,7 @@ Some OVH API returns the message inside the JSON response as a `message` field.
           .post path
           .send content
           .use @sign
-          .catch catcher
+          .catch catcher path, content
         body
 
       put: (path,content = {}) ->
@@ -32,14 +40,14 @@ Some OVH API returns the message inside the JSON response as a `message` field.
           .put path
           .send content
           .use @sign
-          .catch catcher
+          .catch catcher path, content
         body
 
       get: (path) ->
         {body} = await @client
           .get path
           .use @sign
-          .catch catcher
+          .catch catcher path, content
         body
 
       get_stream: (path) ->
