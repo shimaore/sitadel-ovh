@@ -7,15 +7,16 @@ Some OVH API returns the message inside the JSON response as a `message` field.
 (Particularly the Portability API.)
 
     class OVHAPIError extends Error
-      constructor: ({message,response},path,content) ->
+      constructor: ({message,response},method,path,content) ->
         super [
+          method
           path
-          JSON.stringify content
+          if content? then JSON.stringify content else ''
           response?.body?.message? ? message
         ].join ' → '
 
-    catcher = (path,content) -> (error) ->
-      error = new OVHAPIError error, path, content
+    catcher = (method,path,content) -> (error) ->
+      error = new OVHAPIError error, method, path, content
       debug.error 'OVHAPIError', error
       Promise.reject error
 
@@ -32,7 +33,7 @@ Some OVH API returns the message inside the JSON response as a `message` field.
           .post path
           .send content
           .use @sign
-          .catch catcher path, content
+          .catch catcher 'POST', path, content
         body
 
       put: (path,content = {}) ->
@@ -40,14 +41,14 @@ Some OVH API returns the message inside the JSON response as a `message` field.
           .put path
           .send content
           .use @sign
-          .catch catcher path, content
+          .catch catcher 'PUT', path, content
         body
 
       get: (path) ->
         {body} = await @client
           .get path
           .use @sign
-          .catch catcher path, content
+          .catch catcher 'GET', path
         body
 
       get_stream: (path) ->
