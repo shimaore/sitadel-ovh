@@ -21,6 +21,7 @@
     "nyc": "^13.3.0"
   },
   "dependencies": {
+    "agentkeepalive": "^4.0.2",
     "superagent": "^4.1.0",
     "superagent-ovh": "^1.0.1",
     "superagent-prefix": "0.0.2",

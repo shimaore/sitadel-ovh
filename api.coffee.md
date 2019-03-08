@@ -1,7 +1,29 @@
     superagent_ovh = require 'superagent-ovh'
-    superagent = require 'superagent'
     superagent_prefix = require 'superagent-prefix'
     {debug} = (require 'tangible') 'sitadel-ovh:api'
+
+    Request = require 'superagent'
+    {HttpsAgent} = Agent = require 'agentkeepalive'
+
+    http_agent = new Agent
+      maxSockets: 100         # per host
+      maxFreeSockets: 10      # per host
+      timeout: 60000          # active socket
+      freeSocketTimeout: 30000 # free socket
+    https_agent = new HttpsAgent
+      maxSockets: 100         # per host
+      maxFreeSockets: 10      # per host
+      timeout: 60000          # active socket
+      freeSocketTimeout: 30000 # free socket
+
+    pick_agent = (url) ->
+      switch
+        when url.match /^https:/
+          Request.agent https_agent
+        when url.match /^http:/
+          Request.agent http_agent
+        else
+          Request
 
 Some OVH API returns the message inside the JSON response as a `message` field.
 (Particularly the Portability API.)
@@ -24,7 +46,7 @@ Some OVH API returns the message inside the JSON response as a `message` field.
     class API
       constructor: (base,options) ->
         @sign = superagent_ovh.sign options
-        @client = superagent.agent()
+        @client = pick_agent base
           .use superagent_prefix base
           .accept 'json'
         return
