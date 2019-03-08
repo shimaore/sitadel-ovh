@@ -34,8 +34,8 @@ Some OVH API returns the message inside the JSON response as a `message` field.
           method
           path
           if content? then JSON.stringify content else ''
-          response.status
-          response.text
+          response?.status
+          response?.text
           response?.body?.message? ? message
         ].join ' → '
 
