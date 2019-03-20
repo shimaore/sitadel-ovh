@@ -487,40 +487,32 @@ Retrieve a `/telephony/` document using the API directly. Cache the result.
         [billingAccount,cl,sv] = path
 
         switch cl
-          when 'fax'
-            r3 = try await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/settings"
-            if r3
-              data.Settings = r3
+          when OVH.FAX
+            try
+              data.Settings = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/settings"
 
-          when 'line'
-            r3 = try await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/options"
-            if r3
-              data.Options = r3
+          when OVH.LINE
+            try
+              data.Options = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/options"
 
-            r3 = try await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/simultaneousChannelsDetails"
-            if r3?
-              data.Channels = r3
+            try
+              data.Channels = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/simultaneousChannelsDetails"
 
-          when 'portability'
-            r3 = try await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/status"
-            if r3?.body?
-              data.Status = r3.body
+          when OVH.PORTABILITY
+            try
+              data.Status = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/status"
 
-            r3 = try await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/document"
-            if r3?.body?
-              data.Documents = r3.body
+            try
+              data.Documents = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/document"
 
-            r3 = try await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/canBeCancelled"
-            if r3?.body?
-              data.CanBeCancelled = r3.body
+            try
+              data.CanBeCancelled = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/canBeCancelled"
 
-            r3 = try await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/canBeExecuted"
-            if r3?.body?
-              data.CanBeExecuted = r3.body
+            try
+              data.CanBeExecuted = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/canBeExecuted"
 
-            r3 = try await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/dateCanBeChanged"
-            if r3?.body?
-              data.DateCanBeChanged = r3.body
+            try
+              data.DateCanBeChanged = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/dateCanBeChanged"
 
         await @db.update data
         return await @db.get data._id
