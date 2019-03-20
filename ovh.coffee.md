@@ -259,7 +259,7 @@ Example responses:
             type: 'landline' # or 'special'
           }, meta
 
-        await order.pay_with_bankAccount()
+        await order.pay_with_fidelityAccount()
         order
 
 Create non-geographic number
