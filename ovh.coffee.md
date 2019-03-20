@@ -530,7 +530,7 @@ Retrieve a `/telephony/` document using the API directly. Cache the result.
 Retrieve all data linked to a billingAccount
 
       force_check: (billingAccount,services = default_services) ->
-        debug 'force_check', billingAccount
+        debug 'force_check', billingAccount, services
 
         counter = 0
 
