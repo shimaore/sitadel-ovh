@@ -12,11 +12,15 @@ OVH
 
 Static properties and methods.
 
+      @DDI: 'ddi'
       @LINE: 'line'
       @NUMBER: 'number'
       @TRUNK: 'trunk'
       @SERVICE: 'service'
       @FAX: 'fax'
+      @PORTABILITY: 'portability'
+      @REDIRECT: 'redirect'
+      @RSVA: 'rsva'
 
       @Type: (t) ->
         assert.strictEqual 'string', typeof t, "OVH.Type expected a string, got #{t}"
@@ -525,7 +529,7 @@ Retrieve a `/telephony/` document using the API directly. Cache the result.
 
 Retrieve all data linked to a billingAccount
 
-      force_check: (billingAccount) ->
+      force_check: (billingAccount,services = default_services) ->
         debug 'force_check', billingAccount
 
         counter = 0
@@ -533,28 +537,6 @@ Retrieve all data linked to a billingAccount
         await @db.info().catch => @db.create()
 
         ra = await @__get billingAccount
-
-        services = [
-          # 'conference'
-          'ddi'
-          # 'easyHunting'
-          # 'easyPabx'
-          'fax'
-          'line'
-          # 'miniPabx'
-          OVH.NUMBER
-          # 'ovhPabx'
-          'portability'
-          'redirect'
-          'rsva'
-          # 'scheduler'
-          # 'screen'
-          OVH.SERVICE
-          # 'timeCondition'
-          OVH.TRUNK
-          # 'voicemail'
-          # 'vxml'
-        ]
 
         for cl in services
           await do (cl) =>
@@ -572,6 +554,28 @@ Retrieve all data linked to a billingAccount
         return
 
       module.exports = OVH
+
+      default_services = [
+        # 'conference'
+        OVH.DDI
+        # 'easyHunting'
+        # 'easyPabx'
+        OVH.FAX
+        OVH.LINE
+        # 'miniPabx'
+        OVH.NUMBER
+        # 'ovhPabx'
+        OVH.PORTABILITY
+        OVH.REDIRECT
+        OVH.RSVA
+        # 'scheduler'
+        # 'screen'
+        OVH.SERVICE
+        # 'timeCondition'
+        OVH.TRUNK
+        # 'voicemail'
+        # 'vxml'
+      ]
 
     {debug,heal} = (require 'tangible') 'sitadel-ovh:ovh'
     ec = encodeURIComponent
