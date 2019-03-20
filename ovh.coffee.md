@@ -506,6 +506,18 @@ Retrieve a `/telephony/` document using the API directly. Cache the result.
             if r3?.body?
               data.Documents = r3.body
 
+            r3 = try await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/canBeCancelled"
+            if r3?.body?
+              data.CanBeCancelled = r3.body
+
+            r3 = try await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/canBeExecuted"
+            if r3?.body?
+              data.CanBeExecuted = r3.body
+
+            r3 = try await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/dateCanBeChanged"
+            if r3?.body?
+              data.DateCanBeChanged = r3.body
+
         await @db.update data
         return await @db.get data._id
 
