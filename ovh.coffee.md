@@ -519,6 +519,7 @@ Retrieve a `/telephony/` document using the API directly. Cache the result.
         ['BillingAccount','type','Service'].forEach (name,i) ->
           doc[name] = path[i] if path.length > i
         doc._id = id
+        doc.Missing = false
         await @db.update doc
         return await @db.get id
 
