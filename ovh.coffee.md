@@ -276,7 +276,7 @@ Example responses:
         O = @db.findAsyncIterable
           selector: {billingAccount,orderId}
 
-        for await {id} from O
+        for await {id,Missing} from O when not Missing
           await @api.post "/telephony/#{billingAccount}/portability/#{id}/cancel"
         return
 
