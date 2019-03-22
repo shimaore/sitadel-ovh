@@ -34,6 +34,11 @@ Constructor
         @__queue = new Set
         @__scheduler()
 
+Index for `cancel_porta`, `execute_porta`, `reschedule_porta`
+
+        heal 'OVH index for OVH orders', @db.createIndex
+          index: fields: [ 'billingAccount', 'orderId' ]
+
         return
 
       schedule_check: (billingAccount) ->
@@ -265,6 +270,44 @@ Example responses:
 
         await order.pay_with_fidelityAccount()
         order
+
+      cancel_porta: (billingAccount,orderId) ->
+        debug 'cancel_porta', billingAccount, orderId
+        O = @db.findAsyncIterable
+          selector: {billingAccount,orderId}
+
+        for await {id} from O
+          await @api.post "/telephony/#{billingAccount}/portability/#{id}/cancel"
+        return
+
+      execute_porta: (billingAccount,orderId) ->
+        debug 'execute_porta', billingAccount, orderId
+        O = @db.findAsyncIterable
+          selector: {billingAccount,orderId}
+
+        for await {id} from O
+          await @api.post "/telephony/#{billingAccount}/portability/#{id}/execute"
+        return
+
+      changedate_porta: (billingAccount,orderId,date) ->
+        debug 'changedate_porta', billingAccount, orderId, date
+        O = @db.findAsyncIterable
+          selector: {billingAccount,orderId}
+
+        for await {id} from O
+          await @api.post "/telephony/#{billingAccount}/portability/#{id}/changedate", {date}
+        return
+
+      relaunch_porta: (billingAccount,orderId,parameters) ->
+        debug 'relaunch_porta', billingAccount, orderId
+        O = @db.findAsyncIterable
+          selector: {billingAccount,orderId}
+
+        parameters = Object.entries(parameters).map ([key,value]) -> {key,value}
+
+        for await {id} from O
+          await @api.post "/telephony/#{billingAccount}/portability/#{id}/relaunch", {parameters}
+        return
 
 Create non-geographic number
 ----------------------------
@@ -513,6 +556,9 @@ Retrieve a `/telephony/` document using the API directly. Cache the result.
 
             try
               data.DateCanBeChanged = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/dateCanBeChanged"
+
+            try
+              data.Relaunch = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/relaunch"
 
         await @db.update data
         return await @db.get data._id
