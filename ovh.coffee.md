@@ -509,7 +509,13 @@ Retrieve a `/telephony/` document using the API directly. Cache the result.
 
         id = path.join ':'
 
-        doc = res = await @api.get "/telephony/#{path.map(ec).join '/'}"
+        try
+          doc = await @api.get "/telephony/#{path.map(ec).join '/'}"
+        catch error
+          if error.status is 404
+            await @db.merge id, Missing:true
+          return Promise.reject error
+
         ['BillingAccount','type','Service'].forEach (name,i) ->
           doc[name] = path[i] if path.length > i
         doc._id = id
