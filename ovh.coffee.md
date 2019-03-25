@@ -536,36 +536,38 @@ Retrieve a `/telephony/` document using the API directly. Cache the result.
 
         [billingAccount,cl,sv] = path
 
+        get = (p) => @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/#{p}"
+
         switch cl
           when OVH.FAX
             try
-              data.Settings = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/settings"
+              data.Settings = await get 'settings'
 
           when OVH.LINE
             try
-              data.Options = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/options"
+              data.Options = await get 'options'
 
             try
-              data.Channels = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/simultaneousChannelsDetails"
+              data.Channels = await get 'simultaneousChannelsDetails'
 
           when OVH.PORTABILITY
             try
-              data.Status = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/status"
+              data.Status = await get 'status'
 
             try
-              data.Documents = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/document"
+              data.Documents = await get 'document'
 
             try
-              data.CanBeCancelled = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/canBeCancelled"
+              data.CanBeCancelled = await get 'canBeCancelled'
 
             try
-              data.CanBeExecuted = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/canBeExecuted"
+              data.CanBeExecuted = await get 'canBeExecuted'
 
             try
-              data.DateCanBeChanged = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/dateCanBeChanged"
+              data.DateCanBeChanged = await get 'dateCanBeChanged'
 
             try
-              data.Relaunch = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/relaunch"
+              data.Relaunch = await get 'relaunch'
 
         await @db.update data
         return await @db.get data._id
