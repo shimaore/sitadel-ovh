@@ -569,6 +569,10 @@ Retrieve a `/telephony/` document using the API directly. Cache the result.
             try
               data.Relaunch = await get 'relaunch'
 
+          when OVH.SERVICE
+            try
+              data.Directory = await get 'directory'
+
         await @db.update data
         return await @db.get data._id
 
