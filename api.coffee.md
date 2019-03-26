@@ -30,19 +30,16 @@ Some OVH API returns the message inside the JSON response as a `message` field.
 
     class OVHAPIError extends Error
       constructor: ({message,response},method,path,content) ->
+        msg = response?.body?.message ? message
         super [
           method
           path
           if content? then JSON.stringify content else ''
           response?.status
           response?.text
-          response?.body?.message? ? message
+          msg
         ].join ' → '
-        @message = message
-        @response = response
-        @method = method
-        @path = path
-        @content = content
+        @message = msg
         return
 
     catcher = (method,path,content) -> (error) ->
