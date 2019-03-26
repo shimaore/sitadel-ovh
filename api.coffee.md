@@ -38,6 +38,12 @@ Some OVH API returns the message inside the JSON response as a `message` field.
           response?.text
           response?.body?.message? ? message
         ].join ' → '
+        @message = message
+        @response = response
+        @method = method
+        @path = path
+        @content = content
+        return
 
     catcher = (method,path,content) -> (error) ->
       error = new OVHAPIError error, method, path, content
