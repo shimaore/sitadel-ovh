@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "agentkeepalive": "^4.0.2",
-    "superagent": "^4.1.0",
+    "superagent": "^5.0.2",
     "superagent-ovh": "^1.0.1",
     "superagent-prefix": "0.0.2",
     "tangible": "^3.0.0"
