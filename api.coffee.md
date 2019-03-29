@@ -40,6 +40,7 @@ Some OVH API returns the message inside the JSON response as a `message` field.
           msg
         ].join ' → '
         @ovh_message = msg
+        @status = response?.status
         return
 
     catcher = (method,path,content) -> (error) ->
