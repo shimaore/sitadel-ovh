@@ -577,6 +577,32 @@ Retrieve a `/telephony/` document using the API directly. Cache the result.
             try
               data.Directory = await get 'directory'
 
+            if 'function' is typeof @process_cdr
+
+              get_cdrs = (p) =>
+                cdrs = await get p
+                for id in cdrs
+                  try
+                    cdr = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/#{p}/#{id}"
+                    date = cdr.creationDatetime.substr 0, 10
+                    cdr.BillingAccount = billingAccount
+                    cdr.Service = sv
+                    cdr.Date = date
+                    cdr._id = [billingAccount,sv,id].join ':'
+                    try
+                      cdr.CallDiagnostics = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/#{p}/#{id}/callDiagnostics"
+                    await @process_cdr cdr, p
+                return
+
+              try
+                await get_cdrs 'previousVoiceConsumption'
+
+              try
+                await get_cdrs 'repaymentConsumption'
+
+              try
+                await get_cdrs 'voiceConsumption'
+
 BillingAccount itself
 
           when undefined, null
