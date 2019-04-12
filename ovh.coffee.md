@@ -537,7 +537,6 @@ Retrieve a `/telephony/` document using the API directly. Cache the result.
 
         data = await @__get path...
         return unless data?
-        # FIXME: in case of deletion, still need to delete; not sure how to deal with that? Enumerate the database, do the query on the OVH side, remove if 404?
 
         [billingAccount,cl,sv] = path
 
