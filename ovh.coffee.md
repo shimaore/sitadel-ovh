@@ -579,7 +579,7 @@ Retrieve a `/telephony/` document using the API directly. Cache the result.
 
             if 'function' is typeof @process_cdr
 
-              get_cdrs = (p) =>
+              get_cdrs = (p,cd) =>
                 cdrs = await get p
                 for id in cdrs
                   try
@@ -589,8 +589,9 @@ Retrieve a `/telephony/` document using the API directly. Cache the result.
                     cdr.Service = sv
                     cdr.Date = date
                     cdr._id = [billingAccount,sv,id].join ':'
-                    try
-                      cdr.CallDiagnostics = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/#{p}/#{id}/callDiagnostics"
+                    if cd and @__retrieve_call_diagnostics cdr
+                      try
+                        cdr.CallDiagnostics = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/#{p}/#{id}/callDiagnostics"
                     await @process_cdr cdr, p
                 return
 
@@ -601,7 +602,7 @@ Retrieve a `/telephony/` document using the API directly. Cache the result.
                 await get_cdrs 'repaymentConsumption'
 
               try
-                await get_cdrs 'voiceConsumption'
+                await get_cdrs 'voiceConsumption', cd
 
 BillingAccount itself
 
@@ -618,6 +619,8 @@ BillingAccount itself
 
         await @db.update data
         return await @db.get data._id
+
+      __retrieve_call_diagnostics: (cdr) -> false
 
 ### force_check
 
