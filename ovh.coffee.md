@@ -602,7 +602,7 @@ Retrieve a `/telephony/` document using the API directly. Cache the result.
                 await get_cdrs 'repaymentConsumption'
 
               try
-                await get_cdrs 'voiceConsumption', cd
+                await get_cdrs 'voiceConsumption', true
 
 BillingAccount itself
 
