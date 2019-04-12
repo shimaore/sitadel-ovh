@@ -577,6 +577,19 @@ Retrieve a `/telephony/` document using the API directly. Cache the result.
             try
               data.Directory = await get 'directory'
 
+BillingAccount itself
+
+          when undefined, null
+            aget = (p) => @api.get "/telephony/#{ec billingAccount}/#{p}"
+            try
+              data.serviceInfos = await aget 'serviceInfos'
+            try
+              data.billingAccountSite = await aget 'billingAccountSite'
+            # try
+            #   data.allowedCreditThreshold = await aget 'allowedCreditThreshold'
+            # try
+            #   data.amountSecurityDeposit = await aget 'amountSecurityDeposit'
+
         await @db.update data
         return await @db.get data._id
 
@@ -591,7 +604,7 @@ Retrieve all data linked to a billingAccount
 
         await @db.info().catch => @db.create()
 
-        ra = await @__get billingAccount
+        ra = await @force_get billingAccount
 
         for cl in services
           await do (cl) =>
