@@ -3,18 +3,21 @@
     {debug} = (require 'tangible') 'sitadel-ovh:api'
 
     Request = require 'superagent'
-    {HttpsAgent} = Agent = require 'agentkeepalive'
+    http = require 'http'
+    https = require 'https'
 
-    http_agent = new Agent
+    http_agent = new http.Agent
+      keepAlive: true
+      # keepAliveMsecs: 1000
       maxSockets: 100         # per host
-      maxFreeSockets: 10      # per host
-      timeout: 60000          # active socket
-      freeSocketTimeout: 30000 # free socket
-    https_agent = new HttpsAgent
+      # maxFreeSockets: 256
+      timeout: 30000          # active socket
+    https_agent = new https.Agent
+      keepAlive: true
+      # keepAliveMsecs: 1000
       maxSockets: 100         # per host
-      maxFreeSockets: 10      # per host
-      timeout: 60000          # active socket
-      freeSocketTimeout: 30000 # free socket
+      # maxFreeSockets: 256
+      timeout: 30000          # active socket
 
     pick_agent = (url) ->
       switch
