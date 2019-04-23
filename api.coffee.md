@@ -9,14 +9,14 @@
     http_agent = new http.Agent
       keepAlive: true
       # keepAliveMsecs: 1000
-      maxSockets: 100         # per host
-      # maxFreeSockets: 256
+      maxSockets: 768         # per host
+      maxFreeSockets: 256
       timeout: 30000          # active socket
     https_agent = new https.Agent
       keepAlive: true
       # keepAliveMsecs: 1000
-      maxSockets: 100         # per host
-      # maxFreeSockets: 256
+      maxSockets: 768         # per host
+      maxFreeSockets: 256
       timeout: 30000          # active socket
 
     pick_agent = (url) ->
