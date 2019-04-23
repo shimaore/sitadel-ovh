@@ -16,9 +16,9 @@
   "author": "stephane@shimaore.net",
   "license": "Unlicense",
   "devDependencies": {
-    "coffeescript": "^2.3.2",
-    "mocha": "^6.0.2",
-    "nyc": "^13.3.0"
+    "coffeescript": "^2.4.1",
+    "mocha": "^6.1.4",
+    "nyc": "^14.0.0"
   },
   "dependencies": {
     "agentkeepalive": "^4.0.2",
