@@ -507,36 +507,26 @@ Query OVH directly otherwise
 
 ### force_get
 
-Retrieve a `/telephony/` document using the API directly. Cache the result.
-
-      __get: (path...) ->
-        debug '__get', path
-
-        id = path.join ':'
-
-        try
-          doc = await @api.get "/telephony/#{path.map(ec).join '/'}"
-        catch error
-          if error.status is 404
-            await @db.merge id, Missing:true
-          return Promise.reject error
-
-        ['BillingAccount','type','Service'].forEach (name,i) ->
-          doc[name] = path[i] if path.length > i
-        doc._id = id
-        doc.Missing = false
-        await @db.update doc
-        return await @db.get id
-
-### force_get
-
 `force_get(billingAccount)` or `force_get(billingAccount,cl,sv)`
 
       force_get: (path...) ->
         debug 'force_get', path
 
-        data = await @__get path...
+        id = path.join ':'
+
+        try
+          data = await @api.get "/telephony/#{path.map(ec).join '/'}"
+        catch error
+          if error.status is 404
+            await @db.merge id, Missing:true
+          return Promise.reject error
+
         return unless data?
+
+        ['BillingAccount','type','Service'].forEach (name,i) ->
+          data[name] = path[i] if path.length > i
+        data._id = id
+        data.Missing = false
 
         [billingAccount,cl,sv] = path
 
