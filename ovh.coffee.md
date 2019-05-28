@@ -571,7 +571,7 @@ Query OVH directly otherwise
 
               get_cdrs = (p,cd) =>
                 cdrs = await get p
-                for id in cdrs
+                for id in cdrs.sort()
                   try
                     cdr = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}/#{ec sv}/#{p}/#{id}"
                     date = cdr.creationDatetime.substr 0, 10
