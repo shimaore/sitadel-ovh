@@ -630,11 +630,11 @@ Retrieve all data linked to a billingAccount
         ra = await @force_get billingAccount
 
         for cl in services
-          await do (cl) =>
+          try await do (cl) =>
             r1 = await @api.get "/telephony/#{ec billingAccount}/#{ec cl}"
             return unless r1
             for sv in r1
-              await @force_get billingAccount, cl, sv
+              try await @force_get billingAccount, cl, sv
               counter++
             return
 
