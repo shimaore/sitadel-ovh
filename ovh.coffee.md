@@ -594,6 +594,10 @@ Query OVH directly otherwise
               try
                 await get_cdrs 'voiceConsumption', true
 
+            if 'function' is typeof @flush_cdr
+              try
+                await @flush_cdr()
+
 BillingAccount itself
 
           when undefined, null
