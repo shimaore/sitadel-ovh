@@ -12,6 +12,7 @@ OVH
 
 Static properties and methods.
 
+      @CARRIERSIP: 'carrierSip'
       @DDI: 'ddi'
       @LINE: 'line'
       @NUMBER: 'number'
@@ -647,6 +648,7 @@ Retrieve all data linked to a billingAccount
       module.exports = OVH
 
       default_services = [
+        OVH.CARRIERSIP
         # 'conference'
         OVH.DDI
         # 'easyHunting'
