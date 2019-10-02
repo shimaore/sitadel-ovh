@@ -607,10 +607,10 @@ BillingAccount itself
               data.serviceInfos = await aget 'serviceInfos'
             try
               data.billingAccountSite = await aget 'billingAccountSite'
-            # try
-            #   data.allowedCreditThreshold = await aget 'allowedCreditThreshold'
-            # try
-            #   data.amountSecurityDeposit = await aget 'amountSecurityDeposit'
+            try
+              data.allowedCreditThreshold = await aget 'allowedCreditThreshold'
+            try
+              data.amountSecurityDeposit = await aget 'amountSecurityDeposit'
 
         await @db.update data
         return await @db.get data._id
