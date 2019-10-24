@@ -397,6 +397,11 @@ Actions
         debug 'change_directory', BillingAccount, serviceName, infos
         await @api.put "/telephony/#{ec BillingAccount}/service/#{ec serviceName}/directory", infos
 
+      change_billingAccount: (ovh_service,billingAccountDestination) ->
+        {BillingAccount,serviceName} = ovh_service
+        debug 'change_billing_account', BillingAccount, serviceName, billingAccountDestination
+        await @api.post "/telephony/#{ec BillingAccount}/service/#{ec serviceName}/changeOfBillingAccount", {billingAccountDestination}
+
 Order
 -----
 
