@@ -387,10 +387,10 @@ Actions
         await @api.put "/telephony/#{ec BillingAccount}/line/#{ec serviceName}/options", data
         return
 
-      change_destination: (ovh_number,number) ->
+      change_destination: (ovh_number,destination) ->
         {BillingAccount,featureType,serviceName} = ovh_number
-        debug 'change_destination', BillingAccount, featureType, serviceName, number
-        await @api.post "/telephony/#{ec BillingAccount}/#{ec featureType}/#{ec serviceName}/changeDestination", number
+        debug 'change_destination', BillingAccount, featureType, serviceName, destination
+        await @api.post "/telephony/#{ec BillingAccount}/#{ec featureType}/#{ec serviceName}/changeDestination", {destination}
 
       change_directory: (ovh_service,infos) ->
         {BillingAccount,serviceName} = ovh_service
