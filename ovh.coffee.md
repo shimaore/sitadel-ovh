@@ -390,7 +390,9 @@ Actions
       change_destination: (ovh_number,destination) ->
         {BillingAccount,featureType,serviceName} = ovh_number
         debug 'change_destination', BillingAccount, featureType, serviceName, destination
-        await @api.post "/telephony/#{ec BillingAccount}/#{ec featureType}/#{ec serviceName}/changeDestination", {destination}
+        {taskId} = await @api.post "/telephony/#{ec BillingAccount}/#{ec featureType}/#{ec serviceName}/changeDestination", {destination}
+        console.log 'change_destination', taskId
+        @task BillingAccount, serviceName, taskId
 
       change_directory: (ovh_service,infos) ->
         {BillingAccount,serviceName} = ovh_service
