@@ -189,7 +189,7 @@ Remove service
 
         await @api
           .delete "/telephony/#{ec billingAccount}/#{OVH.SERVICE}/#{service}"
-          .send
+          .query
             reason: 'other'
             details: "Provisioning requested removal"
         return
