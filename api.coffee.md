@@ -87,4 +87,11 @@ Some OVH API returns the message inside the JSON response as a `message` field.
           .get path
           .use @sign
 
+      delete: (path) ->
+        {body} = await @client
+          .delete path
+          .use @sign
+          .catch catcher 'DELETE', path
+        body
+
     module.exports = API
