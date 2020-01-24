@@ -192,6 +192,12 @@ Remove service
           .query
             reason: 'other'
             details: "Provisioning requested removal"
+          .catch (err) ->
+            switch err.status
+              when 409 # `A pending already exists for this service : 'del'`
+                false
+              else
+                Promise.reject err
         return
 
 Create portability
