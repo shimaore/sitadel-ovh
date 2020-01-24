@@ -187,11 +187,18 @@ Remove service
         [billingAccount,type,service] = ovh_id.split ':'
         return unless service?
 
+FIXME: api.ovh.com indicates that `reason` is required, however in practice the deletions
+are processed without it.
+On the other hand, when adding the parameters, we're getting an `Invalid signature`
+(Bad Request/400) error (presumably a bug in `superagent-ovh`).
+
         await @api
           .delete "/telephony/#{ec billingAccount}/#{OVH.SERVICE}/#{service}"
+          ###
           .query
             reason: 'other'
             details: "Provisioning requested removal"
+          ###
           .catch (err) ->
             switch err.status
               when 409 # `A pending already exists for this service : 'del'`
